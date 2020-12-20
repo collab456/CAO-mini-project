@@ -1,0 +1,40 @@
+module group_divider;
+reg [15:0] RAM [0:127];           //memory for storing all data points (16-bit)
+reg [15:0] group1[0:31];	  //memory for group 1 
+reg [15:0] group2[0:31];	  //memory for group 2
+reg [15:0] group3[0:31];	  //memory for group 3
+reg [15:0] group4[0:31];	  //memory for group 4
+integer i;			  //initialization iterator i for loop
+initial
+begin
+  $readmemh("datazen.txt",RAM);      //reading data file 
+end
+initial 
+begin
+for(i=0;i<=99;i=i+1)
+  begin 
+	
+	if(i<=24)group1[i]=RAM[i]; 			//dividing into droup 1
+	if(i>24 && i<=49)group2[i-25]=RAM[i];		//dividing into droup 2
+	if(i>49 && i<=74)group3[i-50]=RAM[i];		//dividing into droup 3
+	if(i>74 && i<=99)group4[i-75]=RAM[i];		//dividing into droup 4
+
+  end
+end
+initial
+begin
+  for(i=0;i<=99;i=i+1)
+  begin 
+	
+	if(i==0)$display("Here Group: 1\n");
+	if(i>=0 && i<=24)$display("point: %d\n",group1[i]);		//displaying group 1
+	if(i==24)$display("Here Group: 2\n");
+	if(i>24 && i<=49)$display("point: %d\n",group2[i-25]);		//displaying group 2
+	if(i==49)$display("Here Group: 3\n");
+	if(i>49 && i<=74)$display("point: %d\n",group3[i-50]);  	//displaying group 3
+	if(i==74)$display("Here Group: 4\n");
+	if(i>74 && i<=99)$display("point: %d\n",group4[i-75]);		//displaying group 4
+
+  end
+end
+endmodule
